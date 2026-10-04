@@ -30,26 +30,3 @@ often messages change, and click **Save**. The default interval is 10 seconds.
 
 If the options do not appear after an update, quit System Settings and reopen
 it. A logout and login may be needed if macOS still has the previous version loaded.
-
-## Start delay
-
-Choose the delay in System Settings. To request a 30-second idle delay:
-
-```sh
-defaults -currentHost write com.apple.screensaver idleTime -int 30
-```
-
-macOS may reset this value when you change the delay in System Settings.
-
-## Build only
-
-```sh
-make
-```
-
-The bundle is created at `build/Heart.saver`.
-
-## Uninstall
-
-Select another screen saver, then remove `Heart.saver` from
-`~/Library/Screen Savers/`.
