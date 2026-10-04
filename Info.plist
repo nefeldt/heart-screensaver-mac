@@ -2,12 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
     <key>CFBundleIdentifier</key><string>de.noah.herz.screensaver</string>
-    <key>CFBundleName</key><string>Herz</string>
-    <key>CFBundleExecutable</key><string>Herz</string>
+    <key>CFBundleName</key><string>Heart</string>
+    <key>CFBundleExecutable</key><string>Heart</string>
     <key>CFBundlePackageType</key><string>BNDL</string>
     <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
     <key>CFBundleShortVersionString</key><string>1.0</string>
     <key>CFBundleVersion</key><string>1</string>
-    <key>NSPrincipalClass</key><string>HerzView</string>
+    <key>NSPrincipalClass</key><string>HeartView</string>
     <key>LSMinimumSystemVersion</key><string>11.0</string>
 </dict></plist>

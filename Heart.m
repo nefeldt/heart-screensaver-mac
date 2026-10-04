@@ -2,13 +2,13 @@
 #import <OpenGL/gl.h>
 #include <math.h>
 
-static ScreenSaverDefaults *HerzDefaults(void) {
+static ScreenSaverDefaults *HeartDefaults(void) {
     ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:@"de.noah.herz.screensaver"];
-    [defaults registerDefaults:@{@"texts": @[@"ich liebe meine arbeit"], @"textInterval": @10}];
+    [defaults registerDefaults:@{@"texts": @[@"I love my job"], @"textInterval": @10}];
     return defaults;
 }
 
-@interface HerzOpenGLView : NSOpenGLView {
+@interface HeartOpenGLView : NSOpenGLView {
     GLuint _textTexture;
     CGFloat _textAspect;
     NSString *_renderedText;
@@ -18,7 +18,7 @@ static ScreenSaverDefaults *HerzDefaults(void) {
 - (void)render;
 @end
 
-@implementation HerzOpenGLView
+@implementation HeartOpenGLView
 - (instancetype)initWithFrame:(NSRect)frame {
     NSOpenGLPixelFormatAttribute attributes[] = {
         NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
@@ -76,7 +76,7 @@ static void heartVertex(int i, double z) {
 
 - (void)render {
     [self.openGLContext makeCurrentContext];
-    NSArray<NSString *> *texts = self.texts.count ? self.texts : @[@"ich liebe meine arbeit"];
+    NSArray<NSString *> *texts = self.texts.count ? self.texts : @[@"I love my job"];
     NSUInteger index = (NSUInteger)(NSProcessInfo.processInfo.systemUptime / MAX(1, self.textInterval)) % texts.count;
     NSString *text = texts[index];
     if (![_renderedText isEqualToString:text]) [self createTextTexture:text];
@@ -140,21 +140,21 @@ static void heartVertex(int i, double z) {
 }
 @end
 
-@interface HerzView : ScreenSaverView
-@property(nonatomic, strong) HerzOpenGLView *renderer;
+@interface HeartView : ScreenSaverView
+@property(nonatomic, strong) HeartOpenGLView *renderer;
 @property(nonatomic, strong) NSWindow *optionsWindow;
 @property(nonatomic, strong) NSTextView *textsEditor;
 @property(nonatomic, strong) NSTextField *intervalEditor;
 @end
 
-@implementation HerzView
+@implementation HeartView
 - (instancetype)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
         self.animationTimeInterval = 1.0 / 60.0;
-        _renderer = [[HerzOpenGLView alloc] initWithFrame:self.bounds];
+        _renderer = [[HeartOpenGLView alloc] initWithFrame:self.bounds];
         if (!_renderer) {
-            NSLog(@"Herz: could not create an OpenGL view");
+            NSLog(@"Heart: could not create an OpenGL view");
             return nil;
         }
         [self addSubview:_renderer];
@@ -167,7 +167,7 @@ static void heartVertex(int i, double z) {
 }
 
 - (void)reloadOptions {
-    ScreenSaverDefaults *defaults = HerzDefaults();
+    ScreenSaverDefaults *defaults = HeartDefaults();
     NSArray *stored = [defaults arrayForKey:@"texts"];
     NSMutableArray *texts = [NSMutableArray array];
     for (id value in stored) {
@@ -187,9 +187,9 @@ static void heartVertex(int i, double z) {
 - (NSWindow *)configureSheet {
     self.optionsWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 480, 350)
         styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
-    self.optionsWindow.title = @"Herz – Optionen";
+    self.optionsWindow.title = @"Heart – Options";
     NSView *content = self.optionsWindow.contentView;
-    NSTextField *label = [NSTextField labelWithString:@"Texte – ein Text pro Zeile:"];
+    NSTextField *label = [NSTextField labelWithString:@"Messages – one per line:"];
     label.frame = NSMakeRect(20, 310, 440, 20);
     [content addSubview:label];
     NSScrollView *scroll = [[NSScrollView alloc] initWithFrame:NSMakeRect(20, 100, 440, 200)];
@@ -205,7 +205,7 @@ static void heartVertex(int i, double z) {
     self.textsEditor.string = [self.renderer.texts componentsJoinedByString:@"\n"];
     scroll.documentView = self.textsEditor;
     [content addSubview:scroll];
-    NSTextField *intervalLabel = [NSTextField labelWithString:@"Text wechseln alle (Sekunden):"];
+    NSTextField *intervalLabel = [NSTextField labelWithString:@"Change message every (seconds):"];
     intervalLabel.frame = NSMakeRect(20, 65, 275, 22);
     [content addSubview:intervalLabel];
     self.intervalEditor = [[NSTextField alloc] initWithFrame:NSMakeRect(300, 65, 80, 24)];
@@ -217,11 +217,11 @@ static void heartVertex(int i, double z) {
     formatter.maximum = @3600;
     self.intervalEditor.formatter = formatter;
     [content addSubview:self.intervalEditor];
-    NSButton *cancel = [NSButton buttonWithTitle:@"Abbrechen" target:self action:@selector(cancelOptions:)];
+    NSButton *cancel = [NSButton buttonWithTitle:@"Cancel" target:self action:@selector(cancelOptions:)];
     cancel.frame = NSMakeRect(250, 15, 100, 32);
     cancel.keyEquivalent = @"\e";
     [content addSubview:cancel];
-    NSButton *save = [NSButton buttonWithTitle:@"Speichern" target:self action:@selector(saveOptions:)];
+    NSButton *save = [NSButton buttonWithTitle:@"Save" target:self action:@selector(saveOptions:)];
     save.frame = NSMakeRect(355, 15, 105, 32);
     save.keyEquivalent = @"\r";
     [content addSubview:save];
@@ -239,8 +239,8 @@ static void heartVertex(int i, double z) {
         NSString *text = [line stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
         if (text.length) [texts addObject:text];
     }
-    if (!texts.count) [texts addObject:@"ich liebe meine arbeit"];
-    ScreenSaverDefaults *defaults = HerzDefaults();
+    if (!texts.count) [texts addObject:@"I love my job"];
+    ScreenSaverDefaults *defaults = HeartDefaults();
     [defaults setObject:texts forKey:@"texts"];
     [defaults setInteger:MAX(1, MIN(3600, self.intervalEditor.integerValue)) forKey:@"textInterval"];
     [defaults synchronize];
