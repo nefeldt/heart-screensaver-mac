@@ -3,7 +3,7 @@
 A native macOS screen saver with a rotating heart and customizable messages.
 Supports Apple Silicon and Intel Macs.
 
-![Heart screen saver with the message I love my job](preview.png)
+![Animated Heart screen saver preview in 1920 × 1080](preview.gif)
 
 ## Install
 
